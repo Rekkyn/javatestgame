@@ -16,11 +16,13 @@ public class Rekkyn extends Entity {
     int numberOfKeys = 0;
     float inputX = 0;
     float inputY = 0;
+    public static int width = 27;
+    public static int height = 27;
 
     public Rekkyn(float x, float y) {
         super(x, y);
-        width = 27;
-        height = 27;
+        super.width = width;
+        super.height = height;
         playerControlled = true;
     }
 
@@ -67,7 +69,7 @@ public class Rekkyn extends Entity {
             }
 
         } else {
-            //runAI();
+            runAI();
         }
 
         if (numberOfKeys >= 2) {

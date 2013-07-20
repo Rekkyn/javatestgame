@@ -11,8 +11,8 @@ public class Entity {
 
     public float x;
     public float y;
-    public static int width;
-    public static int height;
+    public int width;
+    public int height;
     public float motionX;
     public float motionY;
     public float prevMotionX;
@@ -81,16 +81,15 @@ public class Entity {
                     yOverlap = e.y - (y + height);
                 }
                 if (Math.abs(xOverlap) < Math.abs(yOverlap)) {
-                    x += xOverlap;
+                    x += xOverlap + 0.01;
                     if (e.onEdgeX) {
-                        System.out.println(motionX);
-                        motionX = -motionX * 0.8F;
+                        motionX = -prevMotionX * 0.8F;
                     } else {
                         e.motionX = prevMotionX * 0.8F;
                     motionX = -e.prevMotionX * 0.8F;
                     }
                 } else {
-                    y += yOverlap;
+                    y += yOverlap + 0.01;
                     if (e.onEdgeY) {
                         motionY = -prevMotionY * 0.8F;
                     } else {
