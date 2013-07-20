@@ -18,6 +18,7 @@ public class Menu extends BasicGameState implements IWorld {
     int titleX;
     int titleY;
 
+    public List<Entity> entities = new ArrayList<Entity>();
 
     public Menu(int state) {}
 
