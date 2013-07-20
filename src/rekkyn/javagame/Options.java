@@ -10,30 +10,31 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Options extends BasicGameState {
-
+    
     public static String[] fullscreen = { "Off", "On" };
     public static String[] options = { "" + Game.width, "" + Game.height, fullscreen[0] };
-
+    public static int prevState;
+    
     public Options(int state) {}
-
+    
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {}
-
+    
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.setColor(new Color(0.82F, 0.85F, 0.88F));
         g.fillRect(0, 0, Game.width, Game.height);
-
+        
         g.setColor(new Color(0.42F, 0.54F, 0.68F));
         Font.centerText("OPTIONS", Game.width / 2 + 3, 28, 9, g);
-
+        
         g.setColor(new Color(0.18F, 0.25F, 0.33F));
         Font.centerText("OPTIONS", Game.width / 2, 25, 9, g);
-
+        
         Font.draw("Screen Width:", Game.width / 2 - 200, 100, 3, g);
         Font.draw("Screen Height:", Game.width / 2 - 200, 150, 3, g);
         Font.draw("Fullscreen:", Game.width / 2 - 200, 200, 3, g);
-
+        
         g.setColor(new Color(0.42F, 0.54F, 0.68F));
         for (int i = 0; i < options.length; i++) {
             String s = options[i];
@@ -44,28 +45,28 @@ public class Options extends BasicGameState {
             }
             Font.draw(s, Game.width / 2 - offset, 100 + i * 50, 3, g);
         }
-
+        
         g.setColor(new Color(0.47F, 0.35F, 0.17F));
         g.fillRect(Game.width / 2 - 47, Game.height - 72, 100, 50);
-
+        
         g.setColor(new Color(0.56F, 0.44F, 0.25F));
         g.fillRect(Game.width / 2 - 50, Game.height - 75, 100, 50);
-
+        
         g.setColor(new Color(0.78F, 0.65F, 0.45F));
         Font.centerText("APPLY", Game.width / 2, Game.height - 58, 3, g);
-
+        
     }
-
+    
     public int selected = 0;
-
+    
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         Input input = container.getInput();
-
+        
         if (input.isKeyPressed(Input.KEY_ESCAPE)) {
-            game.enterState(Game.MENU);
+            game.enterState(prevState);
         }
-
+        
         if (input.isKeyPressed(Input.KEY_DOWN)) selected++;
         if (input.isKeyPressed(Input.KEY_UP)) selected--;
         if (selected > options.length - 1) selected = options.length - 1;
@@ -80,7 +81,7 @@ public class Options extends BasicGameState {
                 options[2] = fullscreen[0];
             }
         }
-
+        
         int xPos = Mouse.getX();
         int yPos = Mouse.getY();
         if (xPos > Game.width / 2 - 50 && xPos < Game.width / 2 + 50 && yPos < 75 && yPos > 25) {
@@ -108,10 +109,10 @@ public class Options extends BasicGameState {
             }
         }
     }
-
+    
     @Override
     public int getID() {
         return Game.OPTIONS;
     }
-
+    
 }

@@ -17,33 +17,33 @@ public class Menu extends BasicGameState implements IWorld {
     static Image title;
     int titleX;
     int titleY;
-
+    
     public List<Entity> entities = new ArrayList<Entity>();
-
+    
     public Menu(int state) {}
-
+    
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         title = new Image("images/Title.png");
     }
-
+    
     @Override
     public void enter(GameContainer container, StateBasedGame game) throws SlickException {
         titleX = Game.width / 2 - 150;
         titleY = 0;
-
+        
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
             if (e instanceof Rekkyn) {
                 ((Rekkyn) e).playerControlled = false;
             }
         }
-
+        
         Rekkyn rekkyn = new Rekkyn(Game.width / 2 - 12, 195);
         add(rekkyn);
-
+        
     }
-
+    
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.setColor(new Color(0.82F, 0.85F, 0.88F));
@@ -55,30 +55,31 @@ public class Menu extends BasicGameState implements IWorld {
             g.setColor(new Color(0.49F, 0.58F, 0.68F));
             Font.centerText("Press ENTER to begin testing", Game.width / 2, 250, 3, g);
         }
-
+        
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
-
+            
             e.render(container, game, g);
         }
-
+        
     }
-
+    
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         Input input = container.getInput();
         if (input.isKeyPressed(Input.KEY_ESCAPE)) {
             game.enterState(Game.OPTIONS);
+            Options.prevState = getID();
         }
         if (input.isKeyPressed(Input.KEY_ENTER)) {
             game.enterState(Game.PLAY);
         }
-
+        
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
-
+            
             e.update(container, game, delta);
-
+            
             if (e.removed) {
                 entities.remove(i--);
             }
@@ -91,15 +92,15 @@ public class Menu extends BasicGameState implements IWorld {
             add(rekkyn);
         }
     }
-
+    
     @Override
     public int getID() {
         return Game.MENU;
     }
-
+    
     public void add(Entity entity) {
         entity.removed = false;
         entities.add(entity);
     }
-
+    
 }

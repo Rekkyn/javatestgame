@@ -32,6 +32,11 @@ public class Play extends BasicGameState implements IWorld {
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         Input input = container.getInput();
+        
+        if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+            game.enterState(Game.OPTIONS);
+            Options.prevState = getID();
+        }
 
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
