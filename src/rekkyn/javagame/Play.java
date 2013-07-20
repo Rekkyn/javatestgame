@@ -13,7 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Play extends BasicGameState implements IWorld {
     
-    public List<Entity> entities = new ArrayList<Entity>();
+    public static List<Entity> entities = new ArrayList<Entity>();
 
     public Play(int state) {}
 
@@ -65,6 +65,11 @@ public class Play extends BasicGameState implements IWorld {
     @Override
     public int getID() {
         return Game.PLAY;
+    }
+
+    @Override
+    public List<Entity> getEntities() {
+        return entities;
     }
 
 }

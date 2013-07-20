@@ -62,8 +62,8 @@ public class Entity {
             onEdgeY = true;
         }
         
-        for (int i = 0; i < world.entities.size(); i++) {
-            Entity e = world.entities.get(i);
+        for (int i = 0; i < world.getEntities().size(); i++) {
+            Entity e = world.getEntities().get(i);
             if (e != this && intersects(e)) {
                 float xOverlap = 0;
                 float yOverlap = 0;

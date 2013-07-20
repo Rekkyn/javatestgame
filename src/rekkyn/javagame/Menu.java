@@ -18,7 +18,7 @@ public class Menu extends BasicGameState implements IWorld {
     int titleX;
     int titleY;
     
-    public List<Entity> entities = new ArrayList<Entity>();
+    public static List<Entity> entities = new ArrayList<Entity>();
     
     public Menu(int state) {}
     
@@ -101,6 +101,11 @@ public class Menu extends BasicGameState implements IWorld {
     public void add(Entity entity) {
         entity.removed = false;
         entities.add(entity);
+    }
+
+    @Override
+    public List<Entity> getEntities() {
+        return entities;
     }
     
 }
