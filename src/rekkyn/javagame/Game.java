@@ -14,8 +14,8 @@ public class Game extends StateBasedGame {
 
     public static final String GAMENAME = "Java Test Game";
     public static final int MENU = 0;
-    public static final int PLAY = 1;
     public static final int OPTIONS = 1;
+    public static final int PLAY = 2;
     public static int width = 640;
     public static int height = 360;
     

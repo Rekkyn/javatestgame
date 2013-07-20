@@ -13,12 +13,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class Menu extends BasicGameState {
+public class Menu extends BasicGameState implements IWorld {
     static Image title;
     int titleX;
     int titleY;
 
-    public static List<Entity> entities = new ArrayList<Entity>();
 
     public Menu(int state) {}
 
@@ -51,9 +50,9 @@ public class Menu extends BasicGameState {
         g.drawImage(Game.scaleImage(title, 3), titleX, titleY, titleX + 300, titleY + 240, 0, 0, 300, 240);
         if (System.currentTimeMillis() % 1200 < 600) {
             g.setColor(new Color(0.12F, 0.21F, 0.31F));
-            Font.centerText("Press A to begin testing", Game.width / 2 + 1, 251, 3, g);
+            Font.centerText("Press ENTER to begin testing", Game.width / 2 + 1, 251, 3, g);
             g.setColor(new Color(0.49F, 0.58F, 0.68F));
-            Font.centerText("Press A to begin testing", Game.width / 2, 250, 3, g);
+            Font.centerText("Press ENTER to begin testing", Game.width / 2, 250, 3, g);
         }
 
         for (int i = 0; i < entities.size(); i++) {
@@ -69,6 +68,9 @@ public class Menu extends BasicGameState {
         Input input = container.getInput();
         if (input.isKeyPressed(Input.KEY_ESCAPE)) {
             game.enterState(Game.OPTIONS);
+        }
+        if (input.isKeyPressed(Input.KEY_ENTER)) {
+            game.enterState(Game.PLAY);
         }
 
         for (int i = 0; i < entities.size(); i++) {

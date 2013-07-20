@@ -4,6 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Entity {
@@ -14,8 +15,12 @@ public class Entity {
     public static int height;
     public float motionX;
     public float motionY;
+    public float prevMotionX;
+    public float prevMotionY;
     public boolean removed;
     Input input;
+    public boolean onEdgeX;
+    public boolean onEdgeY;
 
     public Entity(float x, float y) {
         this.x = x;
@@ -26,29 +31,39 @@ public class Entity {
 
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         input = container.getInput();
+        GameState state = game.getCurrentState();
+        if (!(state instanceof IWorld)) return;
+        IWorld world = (IWorld) game.getCurrentState();
+        prevMotionX = motionX;
+        prevMotionY = motionY;
         x += motionX;
         y += motionY;
         
-
+        onEdgeX = false;
+        onEdgeY = false;
         if (x < 0) {
             x = 0;
             motionX = 0;
+            onEdgeX = true;
         }
         if (y < 0) {
             y = 0;
             motionY = 0;
+            onEdgeY = true;
         }
         if (x > Game.width - width) {
             x = Game.width - width;
             motionX = 0;
+            onEdgeX = true;
         }
         if (y > Game.height - height) {
             y = Game.height - height;
             motionY = 0;
+            onEdgeY = true;
         }
         
-        for (int i = 0; i < Menu.entities.size(); i++) {
-            Entity e = Menu.entities.get(i);
+        for (int i = 0; i < world.entities.size(); i++) {
+            Entity e = world.entities.get(i);
             if (e != this && intersects(e)) {
                 float xOverlap = 0;
                 float yOverlap = 0;
@@ -67,10 +82,21 @@ public class Entity {
                 }
                 if (Math.abs(xOverlap) < Math.abs(yOverlap)) {
                     x += xOverlap;
-                    motionX = -motionX * 0.8F;
+                    if (e.onEdgeX) {
+                        System.out.println(motionX);
+                        motionX = -motionX * 0.8F;
+                    } else {
+                        e.motionX = prevMotionX * 0.8F;
+                    motionX = -e.prevMotionX * 0.8F;
+                    }
                 } else {
                     y += yOverlap;
-                    motionY = -motionY * 0.8F;
+                    if (e.onEdgeY) {
+                        motionY = -prevMotionY * 0.8F;
+                    } else {
+                        e.motionY = prevMotionY * 0.8F;
+                    motionY = -e.prevMotionY * 0.8F;
+                    }
                 }
             }
         }

@@ -26,7 +26,8 @@ public class Rekkyn extends Entity {
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        float prevMotionX = motionX;
+        super.update(container, game, delta);
+
         dist = (float) Math.sqrt((Game.width / 2 - 12 - x) * (Game.width / 2 - 12 - x) + (195 - y) * (195 - y));
         if (!isFree || dist < 10) {
             if (dist != 0) {
@@ -66,8 +67,7 @@ public class Rekkyn extends Entity {
             }
 
         } else {
-            runAI();
-
+            //runAI();
         }
 
         if (numberOfKeys >= 2) {
@@ -79,8 +79,6 @@ public class Rekkyn extends Entity {
 
         motionX *= 0.95;
         motionY *= 0.95;
-
-        super.update(container, game, delta);
 
         float accelX = motionX - prevMotionX;
         int desiredAangle = (int) (accelX / 0.4 * 15);
