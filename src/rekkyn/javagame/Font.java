@@ -18,7 +18,7 @@ public class Font {
 
     public static void draw(String s, int x, int y, int scale, Graphics g) throws SlickException {
         s = s.toUpperCase();
-        Image font = Game.scaleImage(new Image("res/font.png"), scale);
+        Image font = Game.scaleImage(new Image("images/font.png"), scale);
         int offset = 0;
         for (int i = 0; i < s.length(); i++) {
             int[] pos = new int[2];
