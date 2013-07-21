@@ -1,6 +1,7 @@
 package rekkyn.javagame;
 
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -93,7 +94,12 @@ public class Rekkyn extends Entity {
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         g.rotate(x + 13.5F, y + 13.5F, angle);
-        g.drawImage(Game.scaleImage(Menu.title, 3), x, y, x + 30, y + 30, 138, 255, 168, 285);
+        Color col = new Color(255, 255, 255);
+        if (world instanceof Play) {
+            if (((Play) world).disco)
+            col = Colour.changeHue(new Color(1.0F, 0.0F, 0.0F), (int) (System.currentTimeMillis() % 1000 * 0.36));
+        }
+        g.drawImage(Game.scaleImage(Menu.title, 3), x, y, x + 30, y + 30, 138, 255, 168, 285, col);
         g.rotate(x + 13.5F, y + 13.5F, -angle);
     }
     

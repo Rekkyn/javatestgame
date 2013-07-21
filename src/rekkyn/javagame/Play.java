@@ -14,6 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Play extends BasicGameState implements IWorld {
     
     public static List<Entity> entities = new ArrayList<Entity>();
+    public boolean disco;
 
     public Play(int state) {}
 
@@ -22,7 +23,12 @@ public class Play extends BasicGameState implements IWorld {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.setColor(Colour.background);
+        if (disco) {
+        g.setColor(Colour.changeHue(Colour.background, (int) (System.currentTimeMillis() % 1000 * 0.36)));
+        } else {
+            g.setColor(Colour.background);
+        }
+        System.out.println((int) (System.currentTimeMillis() % 1000 * 0.36));
         g.fillRect(0, 0, Game.width, Game.height);
 
         for (int i = 0; i < entities.size(); i++) {
@@ -45,6 +51,9 @@ public class Play extends BasicGameState implements IWorld {
                 Entity e = entities.get(i);
                 e.remove();
             }
+        }
+        if (input.isKeyPressed(Input.KEY_D)) {
+            disco = !disco;
         }
 
         for (int i = 0; i < entities.size(); i++) {
