@@ -22,7 +22,6 @@ public class Colour {
         float[] hsv = new float[3];
         java.awt.Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), hsv);
         hsv[0] += amount / 360F;
-        System.out.println(hsv[0]*360);
         return new Color(java.awt.Color.HSBtoRGB(hsv[0], hsv[1], hsv[2]));
     }
 }

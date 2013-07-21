@@ -28,7 +28,6 @@ public class Play extends BasicGameState implements IWorld {
         } else {
             g.setColor(Colour.background);
         }
-        System.out.println((int) (System.currentTimeMillis() % 1000 * 0.36));
         g.fillRect(0, 0, Game.width, Game.height);
 
         for (int i = 0; i < entities.size(); i++) {

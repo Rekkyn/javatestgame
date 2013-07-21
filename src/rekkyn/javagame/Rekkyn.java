@@ -71,8 +71,9 @@ public class Rekkyn extends Entity {
             }
 
         } else {
-            //runAI();
+            runAI();
             followMouse();
+            //getAngleFromMotion();
         }
 
         if (numberOfKeys >= 2) {
@@ -84,16 +85,16 @@ public class Rekkyn extends Entity {
 
         motionX *= 0.95;
         motionY *= 0.95;
-
+        
         float accelX = motionX - prevMotionX;
-        int desiredAangle = (int) (accelX / 0.4 * 15);
-        if (desiredAangle > angle) angle++;
-        if (desiredAangle < angle) angle--;
+        int desiredAngle = (int) (accelX / 0.4 * 15);
+        if (desiredAngle > angle) angle++;
+        if (desiredAngle < angle) angle--;
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.rotate(x + 13.5F, y + 13.5F, angle);
+        g.rotate(x + width / 2, y + height / 2, angle);
         Color col = new Color(255, 255, 255);
         if (world instanceof Play) {
             if (((Play) world).disco)
@@ -170,5 +171,10 @@ public class Rekkyn extends Entity {
             inputX += 0.4;
             numberOfKeys++;
         }
+    }
+    
+    public void getAngleFromMotion() {
+        double trigAngle = Math.atan2(motionY, motionX);
+        angle = (int) (trigAngle * 180 / Math.PI) + 135;
     }
 }
