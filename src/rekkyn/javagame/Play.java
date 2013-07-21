@@ -40,6 +40,12 @@ public class Play extends BasicGameState implements IWorld {
             game.enterState(Game.OPTIONS);
             Options.prevState = getID();
         }
+        if (input.isKeyDown(Input.KEY_C)) {
+            for (int i = 0; i < entities.size(); i++) {
+                Entity e = entities.get(i);
+                e.remove();
+            }
+        }
 
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);

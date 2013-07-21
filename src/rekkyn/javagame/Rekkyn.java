@@ -1,5 +1,6 @@
 package rekkyn.javagame;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -69,7 +70,8 @@ public class Rekkyn extends Entity {
             }
 
         } else {
-            runAI();
+            //runAI();
+            followMouse();
         }
 
         if (numberOfKeys >= 2) {
@@ -95,6 +97,21 @@ public class Rekkyn extends Entity {
         g.rotate(x + 13.5F, y + 13.5F, -angle);
     }
     
+    private void followMouse() {
+        int mouseX = Mouse.getX();
+        int mouseY = Game.height - Mouse.getY();
+        double diffX = mouseX - x - width / 2;
+        double diffY = mouseY - y - height / 2;
+        double angle = Math.atan2(diffY, diffX);
+        if (diffX * diffX + diffY * diffY > 2) {
+        motionX += Math.cos(angle) * 0.4;
+        motionY += Math.sin(angle) * 0.4;
+        } else {
+            x = mouseX - width / 2;
+            y = mouseY - height / 2;
+        }
+    }
+
     public void runAI() {
         if (Game.rand.nextInt(30) == 0) {
             int pickanumberanynumber = Game.rand.nextInt(4);

@@ -8,7 +8,7 @@ import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Entity {
-
+    
     public float x;
     public float y;
     public int width;
@@ -21,19 +21,21 @@ public class Entity {
     Input input;
     public boolean onEdgeX;
     public boolean onEdgeY;
-
+    
+    IWorld world;
+    
     public Entity(float x, float y) {
         this.x = x;
         this.y = y;
     }
-
+    
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {}
-
+    
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         input = container.getInput();
         GameState state = game.getCurrentState();
         if (!(state instanceof IWorld)) return;
-        IWorld world = (IWorld) game.getCurrentState();
+        world = (IWorld) game.getCurrentState();
         prevMotionX = motionX;
         prevMotionY = motionY;
         x += motionX;
@@ -65,6 +67,7 @@ public class Entity {
         for (int i = 0; i < world.getEntities().size(); i++) {
             Entity e = world.getEntities().get(i);
             if (e != this && intersects(e)) {
+                onHit(e);
                 float xOverlap = 0;
                 float yOverlap = 0;
                 if (e.x + e.width > x && x + width > e.x + e.width) {
@@ -75,7 +78,7 @@ public class Entity {
                 }
                 
                 if (e.y + e.height > y && y + height > e.y + e.height) {
-                    yOverlap = e.y +e.height - y;
+                    yOverlap = e.y + e.height - y;
                 }
                 if (y + height > e.y && y < e.y) {
                     yOverlap = e.y - (y + height);
@@ -86,7 +89,7 @@ public class Entity {
                         motionX = -prevMotionX * 0.8F;
                     } else {
                         e.motionX = prevMotionX * 0.8F;
-                    motionX = -e.prevMotionX * 0.8F;
+                        motionX = -e.prevMotionX * 0.8F;
                     }
                 } else {
                     y += yOverlap + 0.01;
@@ -94,13 +97,15 @@ public class Entity {
                         motionY = -prevMotionY * 0.8F;
                     } else {
                         e.motionY = prevMotionY * 0.8F;
-                    motionY = -e.prevMotionY * 0.8F;
+                        motionY = -e.prevMotionY * 0.8F;
                     }
                 }
             }
         }
     }
-
+    
+    public void onHit(Entity e) {}
+    
     public void remove() {
         removed = true;
     }
@@ -118,7 +123,7 @@ public class Entity {
         h1 += y;
         if (e.y > h1 || y > h2) return false;
         return true;
-
+        
     }
-
+    
 }
