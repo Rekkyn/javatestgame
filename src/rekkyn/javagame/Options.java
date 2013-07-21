@@ -22,20 +22,20 @@ public class Options extends BasicGameState {
     
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.setColor(new Color(0.82F, 0.85F, 0.88F));
+        g.setColor(Colour.background);
         g.fillRect(0, 0, Game.width, Game.height);
         
-        g.setColor(new Color(0.42F, 0.54F, 0.68F));
+        g.setColor(Colour.light);
         Font.centerText("OPTIONS", Game.width / 2 + 3, 28, 9, g);
         
-        g.setColor(new Color(0.18F, 0.25F, 0.33F));
+        g.setColor(Colour.dark);
         Font.centerText("OPTIONS", Game.width / 2, 25, 9, g);
         
         Font.draw("Screen Width:", Game.width / 2 - 200, 100, 3, g);
         Font.draw("Screen Height:", Game.width / 2 - 200, 150, 3, g);
         Font.draw("Fullscreen:", Game.width / 2 - 200, 200, 3, g);
         
-        g.setColor(new Color(0.42F, 0.54F, 0.68F));
+        g.setColor(Colour.light);
         for (int i = 0; i < options.length; i++) {
             String s = options[i];
             int offset = 0;
@@ -46,13 +46,13 @@ public class Options extends BasicGameState {
             Font.draw(s, Game.width / 2 - offset, 100 + i * 50, 3, g);
         }
         
-        g.setColor(new Color(0.47F, 0.35F, 0.17F));
+        g.setColor(Colour.altdarker);
         g.fillRect(Game.width / 2 - 47, Game.height - 72, 100, 50);
         
-        g.setColor(new Color(0.56F, 0.44F, 0.25F));
+        g.setColor(Colour.altmain);
         g.fillRect(Game.width / 2 - 50, Game.height - 75, 100, 50);
         
-        g.setColor(new Color(0.78F, 0.65F, 0.45F));
+        g.setColor(Colour.altlight);
         Font.centerText("APPLY", Game.width / 2, Game.height - 58, 3, g);
         
     }
@@ -105,7 +105,6 @@ public class Options extends BasicGameState {
                 Game.width = newWidth;
                 Game.height = newHeight;
                 Game.appgc.setDisplayMode(newWidth, newHeight, full);
-                game.enterState(Game.MENU);
             }
         }
     }

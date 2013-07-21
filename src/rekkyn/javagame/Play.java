@@ -22,6 +22,9 @@ public class Play extends BasicGameState implements IWorld {
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+        g.setColor(Colour.background);
+        g.fillRect(0, 0, Game.width, Game.height);
+
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
 

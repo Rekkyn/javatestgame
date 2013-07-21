@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.input.Mouse;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -46,13 +45,13 @@ public class Menu extends BasicGameState implements IWorld {
     
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        g.setColor(new Color(0.82F, 0.85F, 0.88F));
+        g.setColor(Colour.background);
         g.fillRect(0, 0, Game.width, Game.height);
         g.drawImage(Game.scaleImage(title, 3), titleX, titleY, titleX + 300, titleY + 240, 0, 0, 300, 240);
         if (System.currentTimeMillis() % 1200 < 600) {
-            g.setColor(new Color(0.12F, 0.21F, 0.31F));
+            g.setColor(Colour.darker);
             Font.centerText("Press ENTER to begin testing", Game.width / 2 + 1, 251, 3, g);
-            g.setColor(new Color(0.49F, 0.58F, 0.68F));
+            g.setColor(Colour.lighter);
             Font.centerText("Press ENTER to begin testing", Game.width / 2, 250, 3, g);
         }
         
