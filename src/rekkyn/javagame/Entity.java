@@ -76,6 +76,9 @@ public class Entity {
                 if (x + width > e.x && x < e.x) {
                     xOverlap = e.x - (x + width);
                 }
+                if (x == e.x) {
+                    xOverlap = width;
+                }
                 
                 if (e.y + e.height > y && y + height > e.y + e.height) {
                     yOverlap = e.y + e.height - y;
@@ -83,21 +86,28 @@ public class Entity {
                 if (y + height > e.y && y < e.y) {
                     yOverlap = e.y - (y + height);
                 }
-                if (Math.abs(xOverlap) < Math.abs(yOverlap)) {
-                    x += xOverlap + 0.01;
-                    if (e.onEdgeX) {
-                        motionX = -prevMotionX * 0.8F;
+                if (y == e.y) {
+                    yOverlap = height;
+                }
+                
+                System.out.println(prevMotionX);
+                if (xOverlap != 0 && yOverlap != 0) {
+                    if (Math.abs(xOverlap) < Math.abs(yOverlap)) {
+                        x += xOverlap + xOverlap / Math.abs(xOverlap) * 0.1 + -prevMotionX * 0.1;
+                        if (e.onEdgeX) {
+                            motionX = -prevMotionX * 0.8F;
+                        } else {
+                            e.motionX = prevMotionX * 0.8F;
+                            motionX = e.prevMotionX * 0.8F;
+                        }
                     } else {
-                        e.motionX = prevMotionX * 0.8F;
-                        motionX = -e.prevMotionX * 0.8F;
-                    }
-                } else {
-                    y += yOverlap + 0.01;
-                    if (e.onEdgeY) {
-                        motionY = -prevMotionY * 0.8F;
-                    } else {
-                        e.motionY = prevMotionY * 0.8F;
-                        motionY = -e.prevMotionY * 0.8F;
+                        y += yOverlap + yOverlap / Math.abs(yOverlap) * 0.1 + -prevMotionY * 0.1;
+                        if (e.onEdgeY) {
+                            motionY = -prevMotionY * 0.8F;
+                        } else {
+                            e.motionY = prevMotionY * 0.8F;
+                            motionY = e.prevMotionY * 0.8F;
+                        }
                     }
                 }
             }

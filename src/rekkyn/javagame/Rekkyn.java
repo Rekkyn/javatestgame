@@ -103,6 +103,7 @@ public class Rekkyn extends Entity {
         double diffX = mouseX - x - width / 2;
         double diffY = mouseY - y - height / 2;
         double angle = Math.atan2(diffY, diffX);
+        this.angle = (int) (angle * 180 / Math.PI) + 135;
         if (diffX * diffX + diffY * diffY > 2) {
         motionX += Math.cos(angle) * 0.4;
         motionY += Math.sin(angle) * 0.4;
