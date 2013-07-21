@@ -90,7 +90,6 @@ public class Entity {
                     yOverlap = height;
                 }
                 
-                System.out.println(prevMotionX);
                 if (xOverlap != 0 && yOverlap != 0) {
                     if (Math.abs(xOverlap) < Math.abs(yOverlap)) {
                         x += xOverlap + xOverlap / Math.abs(xOverlap) * 0.1 + -prevMotionX * 0.1;

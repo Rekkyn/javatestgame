@@ -11,10 +11,10 @@ public class Font {
     private static String chars = "" + //
             "ABCDEFGHIJKL" + //
             "MNOPQRSTUVWXYZ0123456789" + //
-            " .,!?\u203D<>:;'\"-+=/\\%()" + //
+            " .,!?\u203D<>:;[]'\"-+=/\\%()" + //
             "";
 
-    public static final int[] charWidth = new int[46];
+    public static final int[] charWidth = new int[48];
 
     public static void draw(String s, int x, int y, int scale, Graphics g) throws SlickException {
         s = s.toUpperCase();
@@ -105,6 +105,8 @@ public class Font {
         charWidth[43] = 3;
         charWidth[44] = 1;
         charWidth[45] = 1;
+        charWidth[46] = 2;
+        charWidth[47] = 2;
 
         for (int i = 0; i < charWidth.length; i++) {
             charWidth[i] *= scale;

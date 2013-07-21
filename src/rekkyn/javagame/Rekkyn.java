@@ -71,8 +71,14 @@ public class Rekkyn extends Entity {
             }
 
         } else {
-            runAI();
-            followMouse();
+            if (world instanceof Play) {
+                if (((Play) world).AI) {
+                    runAI();
+                }
+                if (((Play) world).follow) {
+                    followMouse();
+                }
+            }
             //getAngleFromMotion();
         }
 

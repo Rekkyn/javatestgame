@@ -15,6 +15,8 @@ public class Play extends BasicGameState implements IWorld {
     
     public static List<Entity> entities = new ArrayList<Entity>();
     public boolean disco;
+    public boolean AI;
+    public boolean follow;
 
     public Play(int state) {}
 
@@ -29,6 +31,15 @@ public class Play extends BasicGameState implements IWorld {
             g.setColor(Colour.background);
         }
         g.fillRect(0, 0, Game.width, Game.height);
+        
+        if (disco) {
+        g.setColor(Colour.changeHue(Colour.lighter, (int) (System.currentTimeMillis() % 1000 * 0.36)));
+        } else {
+            g.setColor(Colour.lighter);
+        }
+        Font.draw("[A] AI: "+ (AI ? "on" : "off"), Game.width - 200, 10, 2, g);
+        Font.draw("[S] Follow Mouse: "+ (follow ? "on" : "off"), Game.width - 200, 25, 2, g);
+        Font.draw("[D] Disco: "+ (disco ? "on" : "off"), Game.width - 200, 40, 2, g);
 
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
@@ -53,6 +64,12 @@ public class Play extends BasicGameState implements IWorld {
         }
         if (input.isKeyPressed(Input.KEY_D)) {
             disco = !disco;
+        }
+        if (input.isKeyPressed(Input.KEY_A)) {
+            AI = !AI;
+        }
+        if (input.isKeyPressed(Input.KEY_S)) {
+            follow = !follow;
         }
 
         for (int i = 0; i < entities.size(); i++) {
