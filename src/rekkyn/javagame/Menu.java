@@ -14,6 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Menu extends BasicGameState implements IWorld {
     static Image title;
+    static Image menu;
     int titleX;
     int titleY;
     
@@ -24,6 +25,7 @@ public class Menu extends BasicGameState implements IWorld {
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
         title = new Image("images/Title.png");
+        menu = new Image("images/Menus.png");
     }
     
     @Override
@@ -99,11 +101,12 @@ public class Menu extends BasicGameState implements IWorld {
         return Game.MENU;
     }
     
+    @Override
     public void add(Entity entity) {
         entity.removed = false;
         entities.add(entity);
     }
-
+    
     @Override
     public List<Entity> getEntities() {
         return entities;

@@ -19,38 +19,38 @@ public class Play extends BasicGameState implements IWorld {
     public boolean follow;
     public int[] size = { 3, 9, 15, 21, 27, 33, 39, 45, 51 };
     private int currentSize = 4;
-
+    
     public Play(int state) {}
-
+    
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {}
-
+    
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         if (disco) {
-        g.setColor(Colour.changeHue(Colour.background, (int) (System.currentTimeMillis() % 1000 * 0.36)));
+            g.setColor(Colour.changeHue(Colour.background, (int) (System.currentTimeMillis() % 1000 * 0.36)));
         } else {
             g.setColor(Colour.background);
         }
         g.fillRect(0, 0, Game.width, Game.height);
         
         if (disco) {
-        g.setColor(Colour.changeHue(Colour.lighter, (int) (System.currentTimeMillis() % 1000 * 0.36)));
+            g.setColor(Colour.changeHue(Colour.lighter, (int) (System.currentTimeMillis() % 1000 * 0.36)));
         } else {
             g.setColor(Colour.lighter);
         }
-        Font.draw("[A] AI: "+ (AI ? "on" : "off"), Game.width - 200, 10, 2, g);
-        Font.draw("[S] Follow Mouse: "+ (follow ? "on" : "off"), Game.width - 200, 25, 2, g);
-        Font.draw("[D] Disco: "+ (disco ? "on" : "off"), Game.width - 200, 40, 2, g);
+        Font.draw("[A] AI: " + (AI ? "on" : "off"), Game.width - 200, 10, 2, g);
+        Font.draw("[S] Follow Mouse: " + (follow ? "on" : "off"), Game.width - 200, 25, 2, g);
+        Font.draw("[D] Disco: " + (disco ? "on" : "off"), Game.width - 200, 40, 2, g);
         Font.draw("[1 to 9] Size: " + (currentSize + 1), Game.width - 200, 55, 2, g);
-
+        
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
-
+            
             e.render(container, game, g);
         }
     }
-
+    
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         Input input = container.getInput();
@@ -102,14 +102,12 @@ public class Play extends BasicGameState implements IWorld {
         if (input.isKeyPressed(Input.KEY_9)) {
             currentSize = 8;
         }
-
-
-
+        
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
-
+            
             e.update(container, game, delta);
-
+            
             if (e.removed) {
                 entities.remove(i--);
             }
@@ -123,7 +121,6 @@ public class Play extends BasicGameState implements IWorld {
                 if (mouseX >= e.x && mouseX <= e.x + e.width && mouseY >= e.y && mouseY <= e.y + e.height) {
                     e.onRightClicked();
                 }
-                System.out.println(e);
             }
         }
         
@@ -135,22 +132,24 @@ public class Play extends BasicGameState implements IWorld {
             rekkyn.isFree = true;
             add(rekkyn);
         }
-
+        
     }
     
+    @Override
     public void add(Entity entity) {
         entity.removed = false;
         entities.add(entity);
+        entity.init();
     }
-
+    
     @Override
     public int getID() {
         return Game.PLAY;
     }
-
+    
     @Override
     public List<Entity> getEntities() {
         return entities;
     }
-
+    
 }

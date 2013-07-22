@@ -42,6 +42,16 @@ public class Font {
         int newX = x - width / 2;
         draw(s, newX, y, scale, g);
     }
+    
+    public static int getWidth(String s, int scale) {
+        int width = 0;
+        s = s.toUpperCase();
+        for (int i = 0; i < s.length(); i++) {
+            width += getCharWidth(s.charAt(i), scale);
+        }
+        return width;
+    }
+
 
     public static int[] getCharImage(char c) {
         int tileNumber = chars.indexOf(c);

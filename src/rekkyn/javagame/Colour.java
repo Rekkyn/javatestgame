@@ -16,9 +16,9 @@ public class Colour {
     public static final Color altlighter = new Color(0.78F, 0.68F, 0.54F);
     
     public static final Color background = new Color(0.82F, 0.85F, 0.88F);
+    public static final Color altbackground = new Color(0.95F, 0.94F, 0.92F);
     
     public static Color changeHue(Color color, int amount) {
-        //java.awt.Color newColor = new java.awt.Color(color.r, color.g, color.b);
         float[] hsv = new float[3];
         java.awt.Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), hsv);
         hsv[0] += amount / 360F;

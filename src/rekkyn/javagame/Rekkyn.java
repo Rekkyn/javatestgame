@@ -1,5 +1,8 @@
 package rekkyn.javagame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -7,6 +10,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
+import rekkyn.javagame.EntityMenu.MenuOption;
+import rekkyn.javagame.EntityMenu.Radio;
 
 public class Rekkyn extends Entity {
     
@@ -18,6 +24,7 @@ public class Rekkyn extends Entity {
     int numberOfKeys = 0;
     float inputX = 0;
     float inputY = 0;
+    EntityMenu menu;
     
     public Rekkyn(float x, float y) {
         super(x, y);
@@ -30,6 +37,11 @@ public class Rekkyn extends Entity {
         super(x, y);
         super.width = width;
         super.height = height;
+    }
+    
+    @Override
+    public void init() {
+        menu = new EntityMenu(this);
     }
     
     @Override
@@ -90,6 +102,13 @@ public class Rekkyn extends Entity {
             inputX /= Math.sqrt(2);
             inputY /= Math.sqrt(2);
         }
+        if (getMenu() != null) {
+            if (getMenu().isOpen) {
+                inputX = 0;
+                inputY = 0;
+            }
+        }
+        
         motionX += inputX;
         motionY += inputY;
         
@@ -104,6 +123,7 @@ public class Rekkyn extends Entity {
     
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+        super.render(container, game, g);
         g.rotate(x + width / 2, y + height / 2, angle);
         Color col = new Color(255, 255, 255);
         if (world instanceof Play) {
@@ -188,10 +208,23 @@ public class Rekkyn extends Entity {
         angle = (int) (trigAngle * 180 / Math.PI) + 135;
     }
     
+    @Override
     public void onRightClicked() {
-        this.width *= 2;
-        this.height *= 2;
-        x -= width / 4;
-        y -= height / 4;
+        super.onRightClicked();
     }
+    
+    @Override
+    public EntityMenu getMenu() {
+        return menu;
+    }
+    
+    public void writeToOptions() {
+        List<MenuOption> options = new ArrayList<MenuOption>();
+        options.add(getMenu().new Radio("Player Controlled", playerControlled));
+        getMenu().setOptions(options);
+    }
+
+    public void readFromOptions() {}
+
+    
 }
