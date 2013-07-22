@@ -17,6 +17,8 @@ public class Play extends BasicGameState implements IWorld {
     public boolean disco;
     public boolean AI;
     public boolean follow;
+    public int[] size = { 3, 9, 15, 21, 27, 33, 39, 45, 51 };
+    private int currentSize = 4;
 
     public Play(int state) {}
 
@@ -40,6 +42,7 @@ public class Play extends BasicGameState implements IWorld {
         Font.draw("[A] AI: "+ (AI ? "on" : "off"), Game.width - 200, 10, 2, g);
         Font.draw("[S] Follow Mouse: "+ (follow ? "on" : "off"), Game.width - 200, 25, 2, g);
         Font.draw("[D] Disco: "+ (disco ? "on" : "off"), Game.width - 200, 40, 2, g);
+        Font.draw("[1 to 9] Size: " + (currentSize + 1), Game.width - 200, 55, 2, g);
 
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
@@ -71,6 +74,36 @@ public class Play extends BasicGameState implements IWorld {
         if (input.isKeyPressed(Input.KEY_S)) {
             follow = !follow;
         }
+        
+        if (input.isKeyPressed(Input.KEY_1)) {
+            currentSize = 0;
+        }
+        if (input.isKeyPressed(Input.KEY_2)) {
+            currentSize = 1;
+        }
+        if (input.isKeyPressed(Input.KEY_3)) {
+            currentSize = 2;
+        }
+        if (input.isKeyPressed(Input.KEY_4)) {
+            currentSize = 3;
+        }
+        if (input.isKeyPressed(Input.KEY_5)) {
+            currentSize = 4;
+        }
+        if (input.isKeyPressed(Input.KEY_6)) {
+            currentSize = 5;
+        }
+        if (input.isKeyPressed(Input.KEY_7)) {
+            currentSize = 6;
+        }
+        if (input.isKeyPressed(Input.KEY_8)) {
+            currentSize = 7;
+        }
+        if (input.isKeyPressed(Input.KEY_9)) {
+            currentSize = 8;
+        }
+
+
 
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
@@ -83,7 +116,9 @@ public class Play extends BasicGameState implements IWorld {
         }
         
         if (input.isMousePressed(0)) {
-            Rekkyn rekkyn = new Rekkyn(Mouse.getX() - Rekkyn.width / 2, Game.height - Mouse.getY() - Rekkyn.height / 2);
+            Rekkyn rekkyn = new Rekkyn(Mouse.getX(), Game.height - Mouse.getY(), size[currentSize], size[currentSize]);
+            rekkyn.x -= rekkyn.width / 2;
+            rekkyn.y -= rekkyn.height / 2;
             rekkyn.playerControlled = false;
             rekkyn.isFree = true;
             add(rekkyn);

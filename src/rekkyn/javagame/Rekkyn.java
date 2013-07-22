@@ -18,14 +18,24 @@ public class Rekkyn extends Entity {
     int numberOfKeys = 0;
     float inputX = 0;
     float inputY = 0;
-    public static int width = 27;
-    public static int height = 27;
+    public int width;
+    public int height;
 
     public Rekkyn(float x, float y) {
         super(x, y);
+        width = 27;
+        height = 27;
         super.width = width;
         super.height = height;
         playerControlled = true;
+    }
+    
+    public Rekkyn(float x, float y, int width, int height) {
+        super(x, y);
+        this.width = width;
+        this.height = height;
+        super.width = width;
+        super.height = height;
     }
 
     @Override
@@ -76,8 +86,7 @@ public class Rekkyn extends Entity {
                     runAI();
                 }
                 if (((Play) world).follow) {
-                    followMouse();
-                }
+                    followMouse();                }
             }
             //getAngleFromMotion();
         }
@@ -106,7 +115,7 @@ public class Rekkyn extends Entity {
             if (((Play) world).disco)
             col = Colour.changeHue(new Color(1.0F, 0.0F, 0.0F), (int) (System.currentTimeMillis() % 1000 * 0.36));
         }
-        g.drawImage(Game.scaleImage(Menu.title, 3), x, y, x + 30, y + 30, 138, 255, 168, 285, col);
+        g.drawImage(Game.scaleImage(Menu.title, 3), x, y, x + width, y + height, 138, 255, 168, 285, col);
         g.rotate(x + 13.5F, y + 13.5F, -angle);
     }
     

@@ -85,7 +85,9 @@ public class Menu extends BasicGameState implements IWorld {
         }
         
         if (input.isMousePressed(0)) {
-            Rekkyn rekkyn = new Rekkyn(Mouse.getX() - Rekkyn.width / 2, Game.height - Mouse.getY() - Rekkyn.height / 2);
+            Rekkyn rekkyn = new Rekkyn(Mouse.getX(), Game.height - Mouse.getY());
+            rekkyn.x -= rekkyn.width / 2;
+            rekkyn.y -= rekkyn.height / 2;
             rekkyn.playerControlled = false;
             rekkyn.isFree = true;
             add(rekkyn);
