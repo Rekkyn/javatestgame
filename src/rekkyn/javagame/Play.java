@@ -115,6 +115,18 @@ public class Play extends BasicGameState implements IWorld {
             }
         }
         
+        if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
+            for (int i = 0; i < entities.size(); i++) {
+                Entity e = entities.get(i);
+                int mouseX = Mouse.getX();
+                int mouseY = Game.height - Mouse.getY();
+                if (mouseX >= e.x && mouseX <= e.x + e.width && mouseY >= e.y && mouseY <= e.y + e.height) {
+                    e.onRightClicked();
+                }
+                System.out.println(e);
+            }
+        }
+        
         if (input.isMousePressed(0)) {
             Rekkyn rekkyn = new Rekkyn(Mouse.getX(), Game.height - Mouse.getY(), size[currentSize], size[currentSize]);
             rekkyn.x -= rekkyn.width / 2;

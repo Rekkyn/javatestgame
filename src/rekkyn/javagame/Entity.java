@@ -1,5 +1,6 @@
 package rekkyn.javagame;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -45,22 +46,22 @@ public class Entity {
         onEdgeY = false;
         if (x < 0) {
             x = 0;
-            motionX = 0;
+            motionX = -motionX * 0.4F;
             onEdgeX = true;
         }
         if (y < 0) {
             y = 0;
-            motionY = 0;
+            motionY = -motionY * 0.4F;
             onEdgeY = true;
         }
         if (x > Game.width - width) {
             x = Game.width - width;
-            motionX = 0;
+            motionX = -motionX * 0.4F;
             onEdgeX = true;
         }
         if (y > Game.height - height) {
             y = Game.height - height;
-            motionY = 0;
+            motionY = -motionY * 0.4F;
             onEdgeY = true;
         }
         
@@ -111,8 +112,12 @@ public class Entity {
                 }
             }
         }
+        
+
     }
     
+    public void onRightClicked() {}
+
     public void onHit(Entity e) {}
     
     public void remove() {
