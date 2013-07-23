@@ -103,12 +103,6 @@ public class Rekkyn extends Entity {
             inputX /= Math.sqrt(2);
             inputY /= Math.sqrt(2);
         }
-        if (getMenu() != null) {
-            if (getMenu().isOpen) {
-                inputX = 0;
-                inputY = 0;
-            }
-        }
         
         motionX += inputX;
         motionY += inputY;
@@ -202,6 +196,13 @@ public class Rekkyn extends Entity {
             inputX += 0.4;
             numberOfKeys++;
         }
+        if (getMenu() != null) {
+            if (getMenu().isOpen) {
+                inputX = 0;
+                inputY = 0;
+            }
+        }
+        
     }
     
     public void getAngleFromMotion() {
@@ -231,7 +232,6 @@ public class Rekkyn extends Entity {
     public void readFromOptions() {
         List output = new ArrayList();
         output = getMenu().getOutput();
-        // System.out.println(output.size());
         if (output.size() > 0) {
             playerControlled = (Boolean) output.get(0);
         }

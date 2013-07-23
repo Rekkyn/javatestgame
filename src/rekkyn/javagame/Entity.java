@@ -128,7 +128,7 @@ public class Entity {
             if (getMenu() != null) {
                 if (!(mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height)
                         && !(mouseX >= getMenu().x1 && mouseX <= getMenu().x2 && mouseY >= getMenu().y1 && mouseY <= getMenu().y2)) {
-                    getMenu().close();
+                    getMenu().isOpen = false;
                 }
             }
         }
@@ -139,7 +139,9 @@ public class Entity {
     public void writeToOptions() {}
     
     public void onRightClicked() {
-        if (getMenu() != null) getMenu().open();
+        if (getMenu() != null) {
+            getMenu().isOpen = !getMenu().isOpen;
+        }
     }
     
     public void onHit(Entity e) {}

@@ -15,7 +15,9 @@ public class EntityMenu {
     public boolean isOpen;
     public List<MenuOption> options;
     public List output = new ArrayList();
-    float x1, y1, x2, y2;
+    int maxLeft, maxRight, maxHeight;
+    public float x1, y1, x2, y2;
+    public float[] origin = new float[2];
     
     private Entity e;
     
@@ -26,13 +28,34 @@ public class EntityMenu {
     public void update(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         if (!isOpen) return;
         final int SCALE = 3;
+        origin[0] = e.x + e.width / 2;
+        origin[1] = e.y - 15;
+        x1 = origin[0] - maxLeft;
+        x2 = origin[0] + maxRight;
+        y1 = origin[1] + maxHeight;
+        y2 = origin[1];
+        int direction = 0; // 0 = up, 1 = down
+        if (x1 <= 0) {
+            origin[0] -= x1;
+        } else if (x2 > Game.width) {
+            origin[0] -= x2 - Game.width;
+        }
+        if (y1 < 0) {
+            origin[1] = e.y + e.height + 15 - maxHeight;
+            direction = 1;
+        }
+        x1 = origin[0] - maxLeft;
+        x2 = origin[0] + maxRight;
+        y1 = origin[1] + maxHeight;
+        y2 = origin[1];
+        
         g.pushTransform();
-        g.translate(e.x + e.width / 2, e.y - 15);
+        g.translate(origin[0], origin[1]);
         Image image = Game.scaleImage(Menu.menu, SCALE);
         
-        int maxLeft = 27;
-        int maxRight = 27;
-        int maxHeight = -42;
+        maxLeft = 27;
+        maxRight = 27;
+        maxHeight = -42;
         for (int i = 0; i < options.size(); i++) {
             if (options.get(i).getLeftWidth() + 9 > maxLeft) maxLeft = options.get(i).getLeftWidth() + 9;
             if (options.get(i).getRigthWidth() + 9 > maxRight) maxRight = options.get(i).getRigthWidth() + 9;
@@ -91,9 +114,6 @@ public class EntityMenu {
                 maxHeight + 7 * SCALE,          //
                 24 * SCALE, 0, 32 * SCALE, 7 * SCALE); // top right corner
         
-        g.drawImage(image, -2.5F * SCALE, 0, 3.5F * SCALE, 4 * SCALE, // pointer
-                13 * SCALE, 18 * SCALE, 19 * SCALE, 22 * SCALE);
-        
         g.setColor(Colour.altmain);
         for (int i = 0; i < options.size(); i++) {
             options.get(i).render(-20 - i * 20, g);
@@ -101,23 +121,19 @@ public class EntityMenu {
         
         g.popTransform();
         
-        x1 = e.x + e.width / 2 - maxLeft;
-        x2 = e.x + e.width / 2 + maxRight;
-        y1 = e.y - 15 + maxHeight;
-        y2 = e.y - 15;
+        if (direction == 0) {
+            g.drawImage(image, e.x + e.width / 2 - 2.5F * SCALE, e.y - 24, e.x + e.width / 2 + 3.5F * SCALE, e.y - 15 + 4 * SCALE, // pointer
+                    13 * SCALE, 15 * SCALE, 19 * SCALE, 22 * SCALE);
+        } else {
+            g.drawImage(image, e.x + e.width / 2 - 2.5F * SCALE, e.y + e.height + 2 * SCALE, e.x + e.width / 2 + 3.5F * SCALE, e.y
+                    + e.height + 8 * SCALE, // pointer
+                    33 * SCALE, 0, 38 * SCALE, 6 * SCALE);
+        }
         
         output.clear();
         for (int i = 0; i < options.size(); i++) {
             output.add(options.get(i).output());
         }
-    }
-    
-    public void open() {
-        isOpen = true;
-    }
-    
-    public void close() {
-        isOpen = false;
     }
     
     public class MenuOption {
@@ -221,8 +237,8 @@ public class EntityMenu {
     }
     
     public void clicked() {
-        float mouseX = Mouse.getX() - (e.x + e.width / 2);
-        float mouseY = Game.height - Mouse.getY() - (e.y - 15);
+        float mouseX = Mouse.getX() - origin[0];
+        float mouseY = Game.height - Mouse.getY() - origin[1];
         for (int i = 0; i < options.size(); i++) {
             if (mouseX >= -options.get(i).getLeftWidth() && mouseX <= options.get(i).getRigthWidth() && mouseY >= -20 - i * 20
                     && mouseY <= -10 - i * 20 && options.get(i) instanceof Clickable) {
