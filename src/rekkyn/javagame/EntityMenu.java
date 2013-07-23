@@ -1,7 +1,9 @@
 package rekkyn.javagame;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -12,6 +14,7 @@ public class EntityMenu {
     
     public boolean isOpen;
     public List<MenuOption> options;
+    public List output = new ArrayList();
     float x1, y1, x2, y2;
     
     private Entity e;
@@ -20,7 +23,7 @@ public class EntityMenu {
         this.e = e;
     }
     
-    public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
+    public void update(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         if (!isOpen) return;
         final int SCALE = 3;
         g.pushTransform();
@@ -90,18 +93,23 @@ public class EntityMenu {
         
         g.drawImage(image, -2.5F * SCALE, 0, 3.5F * SCALE, 4 * SCALE, // pointer
                 13 * SCALE, 18 * SCALE, 19 * SCALE, 22 * SCALE);
-                
+        
         g.setColor(Colour.altmain);
         for (int i = 0; i < options.size(); i++) {
             options.get(i).render(-20 - i * 20, g);
         }
         
         g.popTransform();
-
+        
         x1 = e.x + e.width / 2 - maxLeft;
         x2 = e.x + e.width / 2 + maxRight;
         y1 = e.y - 15 + maxHeight;
         y2 = e.y - 15;
+        
+        output.clear();
+        for (int i = 0; i < options.size(); i++) {
+            output.add(options.get(i).output());
+        }
     }
     
     public void open() {
@@ -128,9 +136,13 @@ public class EntityMenu {
         int getRigthWidth() {
             return 2;
         }
+        
+        Object output() {
+            return title;
+        }
     }
     
-    public class Radio extends MenuOption {
+    public class Radio extends MenuOption implements Clickable {
         
         boolean activated;
         
@@ -143,6 +155,10 @@ public class EntityMenu {
         void render(int yPos, Graphics g) throws SlickException {
             super.render(yPos, g);
             g.fillRect(10, yPos, 10, 10);
+            if (activated) {
+                g.setColor(Colour.main);
+                g.fillRect(12, yPos + 2, 6, 6);
+            }
         }
         
         @Override
@@ -155,6 +171,17 @@ public class EntityMenu {
             return 20;
         }
         
+        @Override
+        Object output() {
+            return activated;
+        }
+        
+        @Override
+        public void onClick(float mouseX, float mouseY) {
+            if (mouseX >= 10 && mouseX <= 20 && mouseY >= 0 && mouseY <= 10) {
+                activated = !activated;
+            }
+        }
     }
     
     public class Text extends MenuOption {
@@ -181,8 +208,27 @@ public class EntityMenu {
         
     }
     
+    public interface Clickable {
+        public void onClick(float mouseX, float mouseY);
+    }
+    
     public void setOptions(List<MenuOption> options) {
         this.options = options;
+    }
+    
+    public List getOutput() {
+        return output;
+    }
+    
+    public void clicked() {
+        float mouseX = Mouse.getX() - (e.x + e.width / 2);
+        float mouseY = Game.height - Mouse.getY() - (e.y - 15);
+        for (int i = 0; i < options.size(); i++) {
+            if (mouseX >= -options.get(i).getLeftWidth() && mouseX <= options.get(i).getRigthWidth() && mouseY >= -20 - i * 20
+                    && mouseY <= -10 - i * 20 && options.get(i) instanceof Clickable) {
+                ((Clickable) options.get(i)).onClick(mouseX, mouseY - i * 20 + 20);
+            }
+        }
     }
     
 }

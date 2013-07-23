@@ -53,7 +53,7 @@ public class Play extends BasicGameState implements IWorld {
             Entity e = entities.get(i);
             
             if (e.getMenu() != null) {
-                if (e.getMenu().isOpen) e.getMenu().render(container, game, g);
+                if (e.getMenu().isOpen) e.getMenu().update(container, game, g);
             }
         }
         
@@ -154,6 +154,7 @@ public class Play extends BasicGameState implements IWorld {
                 if (e.getMenu() != null) {
                     if (e.getMenu().isOpen && mouseX >= e.getMenu().x1 && mouseX <= e.getMenu().x2 && mouseY >= e.getMenu().y1
                             && mouseY <= e.getMenu().y2) {
+                        e.getMenu().clicked();
                         flag = false;
                         break;
                     }

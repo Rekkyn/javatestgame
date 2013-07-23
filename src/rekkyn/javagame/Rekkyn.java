@@ -12,7 +12,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import rekkyn.javagame.EntityMenu.MenuOption;
-import rekkyn.javagame.EntityMenu.Radio;
 
 public class Rekkyn extends Entity {
     
@@ -48,18 +47,20 @@ public class Rekkyn extends Entity {
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         super.update(container, game, delta);
         
-        dist = (float) Math.sqrt((Game.width / 2 - 12 - x) * (Game.width / 2 - 12 - x) + (195 - y) * (195 - y));
-        if (!isFree || dist < 10) {
-            if (dist != 0) {
-                motionX += dist / 20 * (Game.width / 2 - 12 - x) * 0.1;
-                motionY += dist / 20 * (195 - y) * 0.1;
-            }
-            if (Math.abs(motionX) < 0.3 && Math.abs(motionY) < 0.3 && dist < 1) {
-                x = Game.width / 2 - 12;
-                y = 195;
-            }
-            if (dist >= 18) {
-                isFree = true;
+        if (world instanceof Menu) {
+            dist = (float) Math.sqrt((Game.width / 2 - 12 - x) * (Game.width / 2 - 12 - x) + (195 - y) * (195 - y));
+            if (!isFree || dist < 10) {
+                if (dist != 0) {
+                    motionX += dist / 20 * (Game.width / 2 - 12 - x) * 0.1;
+                    motionY += dist / 20 * (195 - y) * 0.1;
+                }
+                if (Math.abs(motionX) < 0.3 && Math.abs(motionY) < 0.3 && dist < 1) {
+                    x = Game.width / 2 - 12;
+                    y = 195;
+                }
+                if (dist >= 18) {
+                    isFree = true;
+                }
             }
         }
         
@@ -218,14 +219,23 @@ public class Rekkyn extends Entity {
         return menu;
     }
     
+    @Override
     public void writeToOptions() {
         List<MenuOption> options = new ArrayList<MenuOption>();
         options.add(getMenu().new Radio("Player Controlled", playerControlled));
         options.add(getMenu().new Text("Rekkyn"));
         getMenu().setOptions(options);
     }
-
-    public void readFromOptions() {}
-
+    
+    @Override
+    public void readFromOptions() {
+        List output = new ArrayList();
+        output = getMenu().getOutput();
+        // System.out.println(output.size());
+        if (output.size() > 0) {
+            playerControlled = (Boolean) output.get(0);
+        }
+        
+    }
     
 }
