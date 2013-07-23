@@ -30,8 +30,7 @@ public class Entity {
         this.y = y;
     }
     
-    public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-    }
+    public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {}
     
     public EntityMenu getMenu() {
         return null;
@@ -128,16 +127,19 @@ public class Entity {
         if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) || input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
             int mouseX = Mouse.getX();
             int mouseY = Game.height - Mouse.getY();
-            if (!(mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height) && getMenu() != null) {
-                getMenu().close();
+            if (getMenu() != null) {
+                if (!(mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height)
+                        && !(mouseX >= getMenu().x1 && mouseX <= getMenu().x2 && mouseY >= getMenu().y1 && mouseY <= getMenu().y2)) {
+                    getMenu().close();
+                }
             }
         }
     }
     
     public void readFromOptions() {}
-
+    
     public void writeToOptions() {}
-
+    
     public void onRightClicked() {
         if (getMenu() != null) getMenu().open();
     }

@@ -12,6 +12,7 @@ public class EntityMenu {
     
     public boolean isOpen;
     public List<MenuOption> options;
+    float x1, y1, x2, y2;
     
     private Entity e;
     
@@ -89,16 +90,18 @@ public class EntityMenu {
         
         g.drawImage(image, -2.5F * SCALE, 0, 3.5F * SCALE, 4 * SCALE, // pointer
                 13 * SCALE, 18 * SCALE, 19 * SCALE, 22 * SCALE);
-        
-        g.setColor(Colour.darker);
-        // g.drawRect(-maxLeft, maxHeight, maxLeft + maxRight, -maxHeight);
-        
+                
         g.setColor(Colour.altmain);
         for (int i = 0; i < options.size(); i++) {
             options.get(i).render(-20 - i * 20, g);
         }
         
         g.popTransform();
+
+        x1 = e.x + e.width / 2 - maxLeft;
+        x2 = e.x + e.width / 2 + maxRight;
+        y1 = e.y - 15 + maxHeight;
+        y2 = e.y - 15;
     }
     
     public void open() {

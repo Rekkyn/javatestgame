@@ -57,7 +57,6 @@ public class Play extends BasicGameState implements IWorld {
             }
         }
         
-
     }
     
     @Override
@@ -123,23 +122,51 @@ public class Play extends BasicGameState implements IWorld {
         }
         
         if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
+            int mouseX = Mouse.getX();
+            int mouseY = Game.height - Mouse.getY();
+            boolean flag = true;
             for (int i = 0; i < entities.size(); i++) {
                 Entity e = entities.get(i);
-                int mouseX = Mouse.getX();
-                int mouseY = Game.height - Mouse.getY();
-                if (mouseX >= e.x && mouseX <= e.x + e.width && mouseY >= e.y && mouseY <= e.y + e.height) {
-                    e.onRightClicked();
+                if (e.getMenu() != null) {
+                    if (e.getMenu().isOpen && mouseX >= e.getMenu().x1 && mouseX <= e.getMenu().x2 && mouseY >= e.getMenu().y1
+                            && mouseY <= e.getMenu().y2) {
+                        flag = false;
+                        break;
+                    }
+                }
+            }
+            if (flag) {
+                for (int i = 0; i < entities.size(); i++) {
+                    Entity e = entities.get(i);
+                    if (mouseX >= e.x && mouseX <= e.x + e.width && mouseY >= e.y && mouseY <= e.y + e.height) {
+                        e.onRightClicked();
+                    }
                 }
             }
         }
         
         if (input.isMousePressed(0)) {
-            Rekkyn rekkyn = new Rekkyn(Mouse.getX(), Game.height - Mouse.getY(), size[currentSize], size[currentSize]);
-            rekkyn.x -= rekkyn.width / 2;
-            rekkyn.y -= rekkyn.height / 2;
-            rekkyn.playerControlled = false;
-            rekkyn.isFree = true;
-            add(rekkyn);
+            int mouseX = Mouse.getX();
+            int mouseY = Game.height - Mouse.getY();
+            boolean flag = true;
+            for (int i = 0; i < entities.size(); i++) {
+                Entity e = entities.get(i);
+                if (e.getMenu() != null) {
+                    if (e.getMenu().isOpen && mouseX >= e.getMenu().x1 && mouseX <= e.getMenu().x2 && mouseY >= e.getMenu().y1
+                            && mouseY <= e.getMenu().y2) {
+                        flag = false;
+                        break;
+                    }
+                }
+            }
+            if (flag) {
+                Rekkyn rekkyn = new Rekkyn(mouseX, mouseY, size[currentSize], size[currentSize]);
+                rekkyn.x -= rekkyn.width / 2;
+                rekkyn.y -= rekkyn.height / 2;
+                rekkyn.playerControlled = false;
+                rekkyn.isFree = true;
+                add(rekkyn);
+            }
         }
         
     }
