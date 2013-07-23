@@ -31,9 +31,6 @@ public class Entity {
     }
     
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        if (getMenu() != null) {
-            if (getMenu().isOpen) getMenu().render(container, game, g);
-        }
     }
     
     public EntityMenu getMenu() {

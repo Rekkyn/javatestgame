@@ -221,6 +221,7 @@ public class Rekkyn extends Entity {
     public void writeToOptions() {
         List<MenuOption> options = new ArrayList<MenuOption>();
         options.add(getMenu().new Radio("Player Controlled", playerControlled));
+        options.add(getMenu().new Text("Rekkyn"));
         getMenu().setOptions(options);
     }
 

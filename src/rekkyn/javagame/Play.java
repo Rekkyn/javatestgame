@@ -49,6 +49,15 @@ public class Play extends BasicGameState implements IWorld {
             
             e.render(container, game, g);
         }
+        for (int i = 0; i < entities.size(); i++) {
+            Entity e = entities.get(i);
+            
+            if (e.getMenu() != null) {
+                if (e.getMenu().isOpen) e.getMenu().render(container, game, g);
+            }
+        }
+        
+
     }
     
     @Override
