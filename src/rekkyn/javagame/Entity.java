@@ -45,8 +45,8 @@ public class Entity {
         prevMotionY = motionY;
         
         if (getMenu() != null) {
-            writeToOptions();
             readFromOptions();
+            writeToOptions();
         }
         
         x += motionX;
