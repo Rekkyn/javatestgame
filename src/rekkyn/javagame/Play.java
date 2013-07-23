@@ -62,7 +62,7 @@ public class Play extends BasicGameState implements IWorld {
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
         Input input = container.getInput();
-        
+                
         if (input.isKeyPressed(Input.KEY_ESCAPE)) {
             game.enterState(Game.OPTIONS);
             Options.prevState = getID();
@@ -83,31 +83,31 @@ public class Play extends BasicGameState implements IWorld {
             follow = !follow;
         }
         
-        if (input.isKeyPressed(Input.KEY_1)) {
+        if (input.isKeyPressed(Input.KEY_1) || input.isKeyPressed(Input.KEY_NUMPAD1)) {
             currentSize = 0;
         }
-        if (input.isKeyPressed(Input.KEY_2)) {
+        if (input.isKeyPressed(Input.KEY_2) || input.isKeyPressed(Input.KEY_NUMPAD2)) {
             currentSize = 1;
         }
-        if (input.isKeyPressed(Input.KEY_3)) {
+        if (input.isKeyPressed(Input.KEY_3) || input.isKeyPressed(Input.KEY_NUMPAD3)) {
             currentSize = 2;
         }
-        if (input.isKeyPressed(Input.KEY_4)) {
+        if (input.isKeyPressed(Input.KEY_4) || input.isKeyPressed(Input.KEY_NUMPAD4)) {
             currentSize = 3;
         }
-        if (input.isKeyPressed(Input.KEY_5)) {
+        if (input.isKeyPressed(Input.KEY_5) || input.isKeyPressed(Input.KEY_NUMPAD5)) {
             currentSize = 4;
         }
-        if (input.isKeyPressed(Input.KEY_6)) {
+        if (input.isKeyPressed(Input.KEY_6) || input.isKeyPressed(Input.KEY_NUMPAD6)) {
             currentSize = 5;
         }
-        if (input.isKeyPressed(Input.KEY_7)) {
+        if (input.isKeyPressed(Input.KEY_7) || input.isKeyPressed(Input.KEY_NUMPAD7)) {
             currentSize = 6;
         }
-        if (input.isKeyPressed(Input.KEY_8)) {
+        if (input.isKeyPressed(Input.KEY_8) || input.isKeyPressed(Input.KEY_NUMPAD8)) {
             currentSize = 7;
         }
-        if (input.isKeyPressed(Input.KEY_9)) {
+        if (input.isKeyPressed(Input.KEY_9) || input.isKeyPressed(Input.KEY_NUMPAD9)) {
             currentSize = 8;
         }
         
