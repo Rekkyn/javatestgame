@@ -124,20 +124,22 @@ public class Rekkyn extends Entity {
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         super.render(container, game, g);
-        g.rotate(x + width / 2, y + height / 2, angle);
+        float rotateX = x + width / 2;
+        float rotateY = y + height / 2;
+        g.rotate(rotateX, rotateY, angle);
         Color col = new Color(255, 255, 255);
         if (world instanceof Play) {
             if (((Play) world).disco)
                 col = Colour.changeHue(new Color(1.0F, 0.0F, 0.0F), (int) (System.currentTimeMillis() % 1000 * 0.36));
         }
         g.drawImage(Game.scaleImage(Menu.title, 3), x, y, x + width * (1F + 1F / 9F), y + height * (1F + 1F / 9F), 138, 255, 168, 285, col);
-        g.rotate(x + 13.5F, y + 13.5F, -angle);
+        g.rotate(rotateX, rotateY, -angle);
         
         if (!name.equals("Rekkyn") && !getMenu().isOpen) {
-            nameCoords[0] = x + width / 2;
+            nameCoords[0] = x + width / 2 + 2;
             nameCoords[1] = y - 15;
             float x1 = nameCoords[0] - Font.getWidth(name, 2) / 2;
-            float x2 = nameCoords[0] + Font.getWidth(name, 2) / 2;
+            float x2 = nameCoords[0] + Font.getWidth(name, 2) / 2 - 2;
             if (x1 <= 0) {
                 nameCoords[0] -= x1;
             } else if (x2 > Game.width) {
@@ -157,7 +159,7 @@ public class Rekkyn extends Entity {
         double diffX = mouseX - x - width / 2;
         double diffY = mouseY - y - height / 2;
         double angle = Math.atan2(diffY, diffX);
-        // this.angle = (int) (angle * 180 / Math.PI) + 135;
+        this.angle = (int) (angle * 180 / Math.PI) + 135;
         if (diffX * diffX + diffY * diffY > 2) {
             motionX += Math.cos(angle) * 0.4;
             motionY += Math.sin(angle) * 0.4;
