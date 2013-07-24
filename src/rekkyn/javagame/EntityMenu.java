@@ -25,8 +25,7 @@ public class EntityMenu {
         this.e = e;
     }
     
-    public void update(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-        if (!isOpen) return;
+    public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
         final int SCALE = 3;
         origin[0] = e.x + e.width / 2;
         origin[1] = e.y - 15;
@@ -130,6 +129,13 @@ public class EntityMenu {
                     33 * SCALE, 0, 38 * SCALE, 6 * SCALE);
         }
         
+    }
+    
+    public void update(GameContainer container, StateBasedGame game) {
+        for (int i = 0; i < options.size(); i++) {
+            options.get(i).update();
+        }
+        
         output.clear();
         for (int i = 0; i < options.size(); i++) {
             output.add(options.get(i).output());
@@ -156,6 +162,8 @@ public class EntityMenu {
         Object output() {
             return title;
         }
+        
+        void update() {}
     }
     
     public class Radio extends MenuOption implements Clickable {
@@ -200,7 +208,9 @@ public class EntityMenu {
         }
     }
     
-    public class Text extends MenuOption {
+    public class Text extends MenuOption implements Clickable {
+        
+        public boolean editing;
         
         public Text(String title) {
             this.title = title;
@@ -209,19 +219,39 @@ public class EntityMenu {
         @Override
         void render(int yPos, Graphics g) throws SlickException {
             g.setColor(Colour.main);
-            Font.centerText(title, 0, yPos, 2, g);
+            if (editing && System.currentTimeMillis() % 1000 < 500) {
+                Font.centerText(">" + title + "<", 0, yPos, 2, g);
+            } else {
+                Font.centerText(title, 0, yPos, 2, g);
+            }
         }
         
         @Override
         int getLeftWidth() {
-            return Font.getWidth(title, 2) / 2;
+            return Font.getWidth(">" + title + "<", 2) / 2;
         }
         
         @Override
         int getRigthWidth() {
-            return Font.getWidth(title, 2) / 2 - 3;
+            return Font.getWidth(">" + title + "<", 2) / 2 - 3;
         }
         
+        @Override
+        public void onClick(float mouseX, float mouseY) {
+            editing = !editing;
+            Font.resetInput(Game.appgc);
+        }
+        
+        @Override
+        void update() {
+            if (editing) {
+                e.world.takeInput(false);
+                title = Font.editString(title, Game.appgc);
+                if (!isOpen) editing = false;
+            } else {
+                e.world.takeInput(true);
+            }
+        }
     }
     
     public interface Clickable {

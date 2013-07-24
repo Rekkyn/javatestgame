@@ -17,6 +17,7 @@ public class Menu extends BasicGameState implements IWorld {
     static Image menu;
     int titleX;
     int titleY;
+    private boolean takeInput;
     
     public static List<Entity> entities = new ArrayList<Entity>();
     
@@ -110,6 +111,16 @@ public class Menu extends BasicGameState implements IWorld {
     @Override
     public List<Entity> getEntities() {
         return entities;
+    }
+    
+    @Override
+    public boolean takeInput() {
+        return takeInput;
+    }
+    
+    @Override
+    public void takeInput(Boolean takeInput) {
+        this.takeInput = takeInput;
     }
     
 }

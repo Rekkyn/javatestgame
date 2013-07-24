@@ -19,6 +19,7 @@ public class Play extends BasicGameState implements IWorld {
     public boolean follow;
     public int[] size = { 3, 9, 15, 21, 27, 33, 39, 45, 51 };
     private int currentSize = 4;
+    private boolean takeInput;
     
     public Play(int state) {}
     
@@ -53,7 +54,7 @@ public class Play extends BasicGameState implements IWorld {
             Entity e = entities.get(i);
             
             if (e.getMenu() != null) {
-                if (e.getMenu().isOpen) e.getMenu().update(container, game, g);
+                if (e.getMenu().isOpen) e.getMenu().render(container, game, g);
             }
         }
         
@@ -61,55 +62,6 @@ public class Play extends BasicGameState implements IWorld {
     
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-        Input input = container.getInput();
-                
-        if (input.isKeyPressed(Input.KEY_ESCAPE)) {
-            game.enterState(Game.OPTIONS);
-            Options.prevState = getID();
-        }
-        if (input.isKeyDown(Input.KEY_C)) {
-            for (int i = 0; i < entities.size(); i++) {
-                Entity e = entities.get(i);
-                e.remove();
-            }
-        }
-        if (input.isKeyPressed(Input.KEY_D)) {
-            disco = !disco;
-        }
-        if (input.isKeyPressed(Input.KEY_A)) {
-            AI = !AI;
-        }
-        if (input.isKeyPressed(Input.KEY_S)) {
-            follow = !follow;
-        }
-        
-        if (input.isKeyPressed(Input.KEY_1) || input.isKeyPressed(Input.KEY_NUMPAD1)) {
-            currentSize = 0;
-        }
-        if (input.isKeyPressed(Input.KEY_2) || input.isKeyPressed(Input.KEY_NUMPAD2)) {
-            currentSize = 1;
-        }
-        if (input.isKeyPressed(Input.KEY_3) || input.isKeyPressed(Input.KEY_NUMPAD3)) {
-            currentSize = 2;
-        }
-        if (input.isKeyPressed(Input.KEY_4) || input.isKeyPressed(Input.KEY_NUMPAD4)) {
-            currentSize = 3;
-        }
-        if (input.isKeyPressed(Input.KEY_5) || input.isKeyPressed(Input.KEY_NUMPAD5)) {
-            currentSize = 4;
-        }
-        if (input.isKeyPressed(Input.KEY_6) || input.isKeyPressed(Input.KEY_NUMPAD6)) {
-            currentSize = 5;
-        }
-        if (input.isKeyPressed(Input.KEY_7) || input.isKeyPressed(Input.KEY_NUMPAD7)) {
-            currentSize = 6;
-        }
-        if (input.isKeyPressed(Input.KEY_8) || input.isKeyPressed(Input.KEY_NUMPAD8)) {
-            currentSize = 7;
-        }
-        if (input.isKeyPressed(Input.KEY_9) || input.isKeyPressed(Input.KEY_NUMPAD9)) {
-            currentSize = 8;
-        }
         
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
@@ -118,6 +70,65 @@ public class Play extends BasicGameState implements IWorld {
             
             if (e.removed) {
                 entities.remove(i--);
+            }
+        }
+        for (int i = 0; i < entities.size(); i++) {
+            Entity e = entities.get(i);
+            
+            if (e.getMenu() != null) {
+                e.getMenu().update(container, game);
+            }
+        }
+        
+        Input input = container.getInput();
+        
+        if (input.isKeyPressed(Input.KEY_ESCAPE)) {
+            game.enterState(Game.OPTIONS);
+            Options.prevState = getID();
+        }
+        if (takeInput()) {
+            if (input.isKeyDown(Input.KEY_C)) {
+                for (int i = 0; i < entities.size(); i++) {
+                    Entity e = entities.get(i);
+                    e.remove();
+                }
+            }
+            if (input.isKeyPressed(Input.KEY_D)) {
+                disco = !disco;
+            }
+            if (input.isKeyPressed(Input.KEY_A)) {
+                AI = !AI;
+            }
+            if (input.isKeyPressed(Input.KEY_S)) {
+                follow = !follow;
+            }
+            
+            if (input.isKeyPressed(Input.KEY_1) || input.isKeyPressed(Input.KEY_NUMPAD1)) {
+                currentSize = 0;
+            }
+            if (input.isKeyPressed(Input.KEY_2) || input.isKeyPressed(Input.KEY_NUMPAD2)) {
+                currentSize = 1;
+            }
+            if (input.isKeyPressed(Input.KEY_3) || input.isKeyPressed(Input.KEY_NUMPAD3)) {
+                currentSize = 2;
+            }
+            if (input.isKeyPressed(Input.KEY_4) || input.isKeyPressed(Input.KEY_NUMPAD4)) {
+                currentSize = 3;
+            }
+            if (input.isKeyPressed(Input.KEY_5) || input.isKeyPressed(Input.KEY_NUMPAD5)) {
+                currentSize = 4;
+            }
+            if (input.isKeyPressed(Input.KEY_6) || input.isKeyPressed(Input.KEY_NUMPAD6)) {
+                currentSize = 5;
+            }
+            if (input.isKeyPressed(Input.KEY_7) || input.isKeyPressed(Input.KEY_NUMPAD7)) {
+                currentSize = 6;
+            }
+            if (input.isKeyPressed(Input.KEY_8) || input.isKeyPressed(Input.KEY_NUMPAD8)) {
+                currentSize = 7;
+            }
+            if (input.isKeyPressed(Input.KEY_9) || input.isKeyPressed(Input.KEY_NUMPAD9)) {
+                currentSize = 8;
             }
         }
         
@@ -187,6 +198,16 @@ public class Play extends BasicGameState implements IWorld {
     @Override
     public List<Entity> getEntities() {
         return entities;
+    }
+    
+    @Override
+    public boolean takeInput() {
+        return takeInput;
+    }
+    
+    @Override
+    public void takeInput(Boolean takeInput) {
+        this.takeInput = takeInput;
     }
     
 }

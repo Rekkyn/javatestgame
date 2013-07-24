@@ -24,6 +24,9 @@ public class Rekkyn extends Entity {
     float inputX = 0;
     float inputY = 0;
     EntityMenu menu;
+    List<MenuOption> options = new ArrayList<MenuOption>();
+    public String name = "Rekkyn";
+    private float[] nameCoords = new float[2];
     
     public Rekkyn(float x, float y) {
         super(x, y);
@@ -41,6 +44,8 @@ public class Rekkyn extends Entity {
     @Override
     public void init() {
         menu = new EntityMenu(this);
+        options.add(getMenu().new Radio("Player Controlled", playerControlled));
+        options.add(getMenu().new Text("Rekkyn"));
     }
     
     @Override
@@ -127,6 +132,23 @@ public class Rekkyn extends Entity {
         }
         g.drawImage(Game.scaleImage(Menu.title, 3), x, y, x + width * (1F + 1F / 9F), y + height * (1F + 1F / 9F), 138, 255, 168, 285, col);
         g.rotate(x + 13.5F, y + 13.5F, -angle);
+        
+        if (!name.equals("Rekkyn") && !getMenu().isOpen) {
+            nameCoords[0] = x + width / 2;
+            nameCoords[1] = y - 15;
+            float x1 = nameCoords[0] - Font.getWidth(name, 2) / 2;
+            float x2 = nameCoords[0] + Font.getWidth(name, 2) / 2;
+            if (x1 <= 0) {
+                nameCoords[0] -= x1;
+            } else if (x2 > Game.width) {
+                nameCoords[0] -= x2 - Game.width;
+            }
+            if (nameCoords[1] < 0) {
+                nameCoords[1] = y + height + 5;
+            }
+            
+            Font.centerText(name, (int) nameCoords[0], (int) nameCoords[1], 2, g);
+        }
     }
     
     private void followMouse() {
@@ -222,9 +244,6 @@ public class Rekkyn extends Entity {
     
     @Override
     public void writeToOptions() {
-        List<MenuOption> options = new ArrayList<MenuOption>();
-        options.add(getMenu().new Radio("Player Controlled", playerControlled));
-        options.add(getMenu().new Text("Rekkyn"));
         getMenu().setOptions(options);
     }
     
@@ -234,6 +253,7 @@ public class Rekkyn extends Entity {
         output = getMenu().getOutput();
         if (output.size() > 0) {
             playerControlled = (Boolean) output.get(0);
+            name = (String) output.get(1);
         }
         
     }

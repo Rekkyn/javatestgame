@@ -16,6 +16,13 @@ public class Font {
     
     public static final int[] charWidth = new int[48];
     
+    public static final int[] collection = { Input.KEY_0, Input.KEY_1, Input.KEY_2, Input.KEY_3, Input.KEY_4, Input.KEY_5, Input.KEY_6,
+            Input.KEY_7, Input.KEY_8, Input.KEY_9, Input.KEY_NUMPAD0, Input.KEY_NUMPAD1, Input.KEY_NUMPAD2, Input.KEY_NUMPAD3,
+            Input.KEY_NUMPAD4, Input.KEY_NUMPAD5, Input.KEY_NUMPAD6, Input.KEY_NUMPAD7, Input.KEY_NUMPAD8, Input.KEY_NUMPAD9, Input.KEY_A,
+            Input.KEY_B, Input.KEY_C, Input.KEY_D, Input.KEY_E, Input.KEY_F, Input.KEY_G, Input.KEY_H, Input.KEY_I, Input.KEY_J,
+            Input.KEY_K, Input.KEY_L, Input.KEY_M, Input.KEY_N, Input.KEY_O, Input.KEY_P, Input.KEY_Q, Input.KEY_R, Input.KEY_S,
+            Input.KEY_T, Input.KEY_U, Input.KEY_V, Input.KEY_W, Input.KEY_X, Input.KEY_Y, Input.KEY_Z, };
+    
     public static void draw(String s, int x, int y, int scale, Graphics g) throws SlickException {
         s = s.toUpperCase();
         Image font = Game.scaleImage(new Image("images/font.png"), scale);
@@ -128,14 +135,11 @@ public class Font {
     public static String editString(String s, GameContainer container) {
         Input input = container.getInput();
         
-        int[] collection = { Input.KEY_0, Input.KEY_1, Input.KEY_2, Input.KEY_3, Input.KEY_4, Input.KEY_5, Input.KEY_6, Input.KEY_7,
-                Input.KEY_8, Input.KEY_9, Input.KEY_NUMPAD0, Input.KEY_NUMPAD1, Input.KEY_NUMPAD2, Input.KEY_NUMPAD3, Input.KEY_NUMPAD4,
-                Input.KEY_NUMPAD5, Input.KEY_NUMPAD6, Input.KEY_NUMPAD7, Input.KEY_NUMPAD8, Input.KEY_NUMPAD9 };
         for (int key : collection) {
             if (input.isKeyPressed(key)) {
                 String keyString = Input.getKeyName(key);
                 if (keyString.startsWith("NUMPAD")) {
-                    keyString = keyString.substring(keyString.length() - 1); 
+                    keyString = keyString.substring(keyString.length() - 1);
                 }
                 return s + keyString;
             }
@@ -143,7 +147,20 @@ public class Font {
         if (input.isKeyPressed(Input.KEY_BACK) && s.length() > 0) {
             return s.substring(0, s.length() - 1);
         }
+        if (input.isKeyPressed(Input.KEY_SPACE) && s.length() > 0) {
+            return s + " ";
+        }
         return s;
+        
+    }
+    
+    public static void resetInput(GameContainer container) {
+        Input input = container.getInput();
+        for (int key : collection) {
+            input.isKeyPressed(key);
+        }
+        input.isKeyPressed(Input.KEY_BACK);
+        input.isKeyPressed(Input.KEY_SPACE);
     }
     
 }
