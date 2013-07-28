@@ -132,7 +132,12 @@ public class Rekkyn extends Entity {
             if (((Play) world).disco)
                 col = Colour.changeHue(new Color(1.0F, 0.0F, 0.0F), (int) (System.currentTimeMillis() % 1000 * 0.36));
         }
-        g.drawImage(Game.scaleImage(Menu.title, 3), x, y, x + width * (1F + 1F / 9F), y + height * (1F + 1F / 9F), 138, 255, 168, 285, col);
+        g.drawImage(Game.scaleImage(Menu.title, 3),                                     //
+                (float) (x + motionX * Play.partialTicks),                              //
+                (float) (y + motionY * Play.partialTicks),                              //
+                (float) (x + width * (1F + 1F / 9F) + motionX * Play.partialTicks),     //
+                (float) (y + height * (1F + 1F / 9F) + motionY * Play.partialTicks),    //
+                138, 255, 168, 285, col);
         g.rotate(rotateX, rotateY, -angle);
         
         if (!name.equals("Rekkyn") && !getMenu().isOpen) {

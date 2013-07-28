@@ -20,6 +20,8 @@ public class Play extends BasicGameState implements IWorld {
     public int[] size = { 3, 9, 15, 21, 27, 33, 39, 45, 51 };
     private int currentSize = 4;
     private boolean takeInput;
+    double accumulator = 0.0;
+    static double partialTicks;
     
     public Play(int state) {}
     
@@ -62,7 +64,20 @@ public class Play extends BasicGameState implements IWorld {
     
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+
+        accumulator += delta;
+
+        while ( accumulator >= 50/3 )
+        {
+             tick(container, game, delta);
+             accumulator -= 50/3;
+        }
         
+        partialTicks = accumulator / (50/3);
+    }
+    
+    public void tick(GameContainer container, StateBasedGame game, int delta) throws SlickException {
+
         for (int i = 0; i < entities.size(); i++) {
             Entity e = entities.get(i);
             
@@ -180,7 +195,6 @@ public class Play extends BasicGameState implements IWorld {
                 add(rekkyn);
             }
         }
-        
     }
     
     @Override
